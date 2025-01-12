@@ -76,6 +76,8 @@ define Package/nginx-ui/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/etc/nginx/sites-available
 	$(INSTALL_DIR) $(1)/etc/nginx/sites-enabled
+	$(INSTALL_DIR) $(1)/etc/nginx/streams-available
+	$(INSTALL_DIR) $(1)/etc/nginx/streams-enabled
 	
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/nginx-ui $(1)/usr/bin/
 	$(INSTALL_CONF) ./files/etc/config/nginx-ui $(1)/etc/config/
@@ -89,6 +91,8 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 	# 确保目录存在
 	mkdir -p /etc/nginx/sites-available
 	mkdir -p /etc/nginx/sites-enabled
+	mkdir -p /etc/nginx/streams-available
+	mkdir -p /etc/nginx/streams-enabled
 	
 	grep -q sites-enabled files/etc/nginx/nginx.conf || {
 	sed -i '/include conf\.d\/\*\.conf;/a 	include /etc/nginx/sites-enabled/*;' /etc/nginx/uci.conf.template;
