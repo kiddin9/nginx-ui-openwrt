@@ -17,7 +17,7 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=Kiddin9
 
 include $(INCLUDE_DIR)/package.mk
-include $(INCLUDE_DIR)/golang.mk
+include ../../lang/golang/golang-package.mk
 
 define Package/nginx-ui
   SECTION:=net
