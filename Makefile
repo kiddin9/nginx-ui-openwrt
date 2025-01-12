@@ -90,10 +90,11 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 	mkdir -p /etc/nginx/sites-available
 	mkdir -p /etc/nginx/sites-enabled
 	
-	grep -q sites-enabled files/etc/nginx/nginx.conf || sed -i '/include conf\.d\/\*\.conf;/a 	include /etc/nginx/sites-enabled/*;' /etc/nginx/uci.conf.template
-	
-	# 重启 nginx 服务
+	grep -q sites-enabled files/etc/nginx/nginx.conf || {
+	sed -i '/include conf\.d\/\*\.conf;/a 	include /etc/nginx/sites-enabled/*;' /etc/nginx/uci.conf.template;
 	/etc/init.d/nginx restart
+	}
+	
 fi
 exit 0
 endef
