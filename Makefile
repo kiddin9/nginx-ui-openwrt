@@ -94,9 +94,7 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 	mkdir -p /etc/nginx/streams-available
 	mkdir -p /etc/nginx/streams-enabled
 
-	# 禁用 UCI 集成
-	uci set nginx.global.uci_enable='false'
-	uci commit nginx
+	ln -sf /etc/nginx/nginx.conf /etc/nginx/uci.conf
 
 	grep -q sites-enabled files/etc/nginx/nginx.conf || sed -i '/include conf\.d\/\*\.conf;/a 	include /etc/nginx/sites-enabled/*;' /etc/nginx/uci.conf.template;
 	/etc/init.d/nginx restart
