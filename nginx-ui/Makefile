@@ -77,7 +77,7 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 
 	ln -sf /etc/nginx/uci.conf /etc/nginx/nginx.conf
 
-	grep -q sites-enabled files/etc/nginx/nginx.conf || sed -i '/include conf\.d\/\*\.conf;/a 	include /etc/nginx/sites-enabled/*;' /etc/nginx/uci.conf.template;
+	grep -q sites-enabled files/etc/nginx/uci.conf.template || sed -i '/include conf\.d\/\*\.conf;/a 	include /etc/nginx/sites-enabled/*;' /etc/nginx/uci.conf.template;
 	/etc/init.d/nginx restart
 	
 fi
