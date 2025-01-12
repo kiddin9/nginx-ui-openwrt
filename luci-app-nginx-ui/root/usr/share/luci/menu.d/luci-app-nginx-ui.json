@@ -17,13 +17,5 @@
             "type": "view",
             "path": "nginx-ui/index"
         }
-    },
-    "admin/services/nginx-ui/status": {
-        "title": "Status",
-        "order": 20,
-        "action": {
-            "type": "view",
-            "path": "nginx-ui/status"
-        }
     }
 }
