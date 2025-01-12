@@ -25,11 +25,16 @@ define Package/nginx-ui
   SUBMENU:=Web Servers/Proxies
   TITLE:=Web UI for Nginx
   URL:=https://nginxui.com
-  DEPENDS:=+nginx-ssl
+  DEPENDS:=+nginx-ssl +libsqlite3
 endef
 
 define Package/nginx-ui/description
   Nginx UI is a web interface for Nginx configuration management
+endef
+
+define Package/xray-core/conffiles
+/etc/nginx-ui/
+/etc/config/nginx-ui
 endef
 
 define Build/Prepare
@@ -49,8 +54,15 @@ define Build/Compile
 	cd $(PKG_BUILD_DIR) && \
 		export GOOS=linux && \
 		export GOARCH=$(GOLANG_ARCH) && \
-		export CGO_ENABLED=0 && \
+		export CGO_ENABLED=1 && \
+		export CC=$(TARGET_CC) && \
+		export CXX=$(TARGET_CXX) && \
 		export BUILD_TIME=$(shell date +%s) && \
+		export PKG_CONFIG=$(PKG_CONFIG_HOST) && \
+		export CFLAGS="$(TARGET_CFLAGS)" && \
+		export LDFLAGS="$(TARGET_LDFLAGS)" && \
+		export CGO_CFLAGS="$(TARGET_CFLAGS)" && \
+		export CGO_LDFLAGS="$(TARGET_LDFLAGS)" && \
 		go build -tags=jsoniter \
 			-ldflags "-s -w \
 				-X 'github.com/0xJacky/Nginx-UI/settings.buildTime=$(BUILD_TIME)'" \
@@ -79,10 +91,6 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 	mkdir -p /etc/nginx/sites-enabled
 	
 	grep -q sites-enabled files/etc/nginx/nginx.conf || sed -i '/include conf\.d\/\*\.conf;/a 	include /etc/nginx/sites-enabled/*;' /etc/nginx/uci.conf.template
-	
-	# 禁用 UCI 集成
-	uci set nginx.global.uci_enable='false'
-	uci commit nginx
 	
 	# 重启 nginx 服务
 	/etc/init.d/nginx restart
