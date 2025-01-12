@@ -20,7 +20,7 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=Kiddin9
 
 include $(INCLUDE_DIR)/package.mk
-include ../../lang/golang/golang-package.mk
+include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
 define Package/nginx-ui
   SECTION:=net
@@ -28,7 +28,7 @@ define Package/nginx-ui
   SUBMENU:=Web Servers/Proxies
   TITLE:=Web UI for Nginx
   URL:=https://nginxui.com
-  DEPENDS:=@(aarch64||arm||x86_64) +nginx +libsqlite3
+  DEPENDS:=@(aarch64||arm||x86_64) +nginx-ssl +libsqlite3
 endef
 
 define Package/nginx-ui/description
@@ -54,22 +54,9 @@ define Build/Compile
 	export GOOS=linux && \
 	export GOARCH=$(GOARCH) && \
 	export CGO_ENABLED=1 && \
-	export CC=$(TARGET_CC) && \
-	export CXX=$(TARGET_CXX) && \
-	export GOARM=$(GOARM) && \
-	export GOMIPS=$(GOMIPS) && \
-	export BUILD_TIME=$(shell date +%s) && \
-	export PKG_CONFIG=$(PKG_CONFIG) && \
-	export CFLAGS="$(TARGET_CFLAGS)" && \
-	export LDFLAGS="$(TARGET_LDFLAGS)" && \
-	export CGO_CFLAGS="$(TARGET_CFLAGS)" && \
-	export CGO_LDFLAGS="$(TARGET_LDFLAGS)" && \
-	export CGO_ENABLED=1 && \
-	export GO111MODULE=on && \
 	go build -tags=jsoniter \
-		-ldflags "-s -w \
-			-X 'github.com/0xJacky/Nginx-UI/settings.buildTime=$(BUILD_TIME)'" \
-		-o $(PKG_BUILD_DIR)/nginx-ui -v
+		-ldflags "-w --extldflags '-static' -X 'github.com/0xJacky/Nginx-UI/settings.buildTime=$(date +%s)'" \
+		-o dist/nginx-ui -v main.go
 endef
 
 define Package/nginx-ui/install
