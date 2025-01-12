@@ -43,10 +43,6 @@ endef
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	
-	# 设置 GOPATH
-	$(INSTALL_DIR) $(PKG_BUILD_DIR)/go
-	export GOPATH=$(PKG_BUILD_DIR)/go
-	
 	# 准备前端构建环境
 	cd $(PKG_BUILD_DIR)/app && \
 		npm install && \
