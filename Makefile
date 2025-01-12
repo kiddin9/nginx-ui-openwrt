@@ -69,7 +69,6 @@ define Package/nginx-ui/install
 	$(INSTALL_CONF) ./files/etc/config/nginx-ui $(1)/etc/config/
 	$(INSTALL_BIN) ./files/etc/init.d/nginx-ui $(1)/etc/init.d/
 	$(INSTALL_CONF) ./files/etc/nginx-ui/app.ini $(1)/etc/nginx-ui/
-	$(INSTALL_CONF) ./files/etc/nginx/nginx.conf $(1)/etc/nginx/
 endef
 
 define Package/nginx-ui/postinst
