@@ -12,9 +12,6 @@ PKG_BUILD_DEPENDS:=node/host golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
 
-GO_PKG:=github.com/0xJacky/nginx-ui
-GO_PKG_BUILD_PKG:=$(GO_PKG)
-
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=Kiddin9
@@ -35,7 +32,7 @@ define Package/nginx-ui/description
   Nginx UI is a web interface for Nginx configuration management
 endef
 
-define Package/xray-core/conffiles
+define Package/nginx-ui/conffiles
 /etc/nginx-ui/
 /etc/config/nginx-ui
 endef
