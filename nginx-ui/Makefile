@@ -51,6 +51,7 @@ define Build/Compile
 	export GOOS=linux && \
 	export GOARCH=$(GOARCH) && \
 	export CGO_ENABLED=1 && \
+	go generate && \
 	go build -tags=jsoniter \
 		-ldflags "-w --extldflags '-static' -X 'github.com/0xJacky/Nginx-UI/settings.buildTime=$(shell date +%s)'" \
 		-o $(PKG_BUILD_DIR)/nginx-ui -v main.go
